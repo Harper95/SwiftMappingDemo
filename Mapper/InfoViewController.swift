@@ -14,6 +14,7 @@ class InfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataUpdated", name: kLoadedNotification, object: nil)
         updateUI()
     }
 
@@ -24,7 +25,7 @@ class InfoViewController: UIViewController {
     
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
 
@@ -35,13 +36,13 @@ class InfoViewController: UIViewController {
 
     // MARK: - User Interaction
     @IBAction func switchValueChanged(sender: AnyObject) {
-        
+        DataStore.sharedInstance.setUserLargeList(useLargeSwitch.on)
     }
 
     
     /// Load Model into View
     func updateUI() {
-        
+        useLargeSwitch.on = DataStore.sharedInstance.usingLargeSet()
     }
     
     
